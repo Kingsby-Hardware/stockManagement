@@ -1,0 +1,57 @@
+<section class="content-header">
+  <h1 *ngIf='pageTitle != ""' style="display: inline-block;">{{pageTitle}}</h1>
+
+  <div style="float: right;">
+    <button type="button" class="btn bg-gold btn-sm" (click)="listProducts()"
+    style="margin-right: 5px;"><i class="fa fa-list" style="margin-right: 5px;"></i> Product List</button>
+  </div>
+</section>
+
+<section class="content">
+  <div class="box box-top-border">
+
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+  <div class="box-body">
+  <div class="row">
+    <div class="col-md-12">
+      <!-- ============ productId ============ -->
+      <div class="form-group" >
+        <input type="hidden" formControlName="productId" class="form-control" id="productId" />
+      </div>
+      <!-- ============ Name ============ -->
+      <div class="form-group" [ngClass]="{ 'has-error': isSubmitted && f.name.errors }">
+        <label for="name">Product Name</label>
+        <input type="text" formControlName="name" class="form-control" id="name" placeholder="Product Name" />
+        <span *ngIf="isSubmitted && f.name.errors" class="help-block">
+          <div *ngIf="f.name.errors.required">Product Name is required</div>
+        </span>
+      </div>
+      <!-- ============ Quantity ============ -->
+      <div class="form-group" [ngClass]="{ 'has-error': isSubmitted && f.quantity.errors }">
+        <label for="quantity">Quantity</label>
+        <input type="text" formControlName="quantity" class="form-control" id="quantity" placeholder="Product Quantity" />
+        <span *ngIf="isSubmitted && f.quantity.errors" class="help-block">
+          <div *ngIf="f.quantity.errors.required">Product quantity is required</div>
+        </span>
+      </div>
+      <!-- ============ Unit ============ -->
+      <div class="form-group" [ngClass]="{ 'has-error': isSubmitted && f.unit.errors }">
+        <label for="unit">Unit</label>
+        <input type="text" formControlName="unit" class="form-control" id="unit" placeholder="Product Unit" />
+        <span *ngIf="isSubmitted && f.unit.errors" class="help-block">
+          <div *ngIf="f.unit.errors.required">Product unit is required</div>
+        </span>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="box-footer" style="text-align: center;">
+    <button type="button" (click)="onReset()" class="btn btn-primary" style="margin-right: 5px;">
+      <i class="fa fa-refresh" style="margin-right: 4px;"></i>Reset </button>
+    <button type="submit" class="btn btn-success" [disabled]="disableSubmit">
+      <i class="fa fa-send" style="margin-right: 4px;"></i>Submit</button>
+  </div>
+</form>
+
+</div>
+</section>

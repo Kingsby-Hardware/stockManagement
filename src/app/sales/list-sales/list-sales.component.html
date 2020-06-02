@@ -1,0 +1,141 @@
+<section class="content-header">
+  <h1 style="display: inline-block;"> Sales List</h1>
+  <div style="float: right;">
+    <button type="button" class="btn bg-gold btn-sm" (click)="addSale()"
+    style="margin-right: 5px;"><i class="fa fa-plus" style="margin-right: 5px;"></i>Record Sale</button>
+<!-- 
+    <button type="button" class="btn bg-orange btn-sm" (click)="addProduct()"
+    style="margin-right: 5px;"><i class="fa fa-plus" style="margin-right: 5px;"></i>Add Product</button> -->
+  </div>
+  
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12" style="text-align: center;">
+      <div class="box box-top-border" >
+        <div class="box-body">
+          
+          <div class="row">
+            <div class="col-xs-12" style="overflow-x: scroll;">
+              <div id="sales_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+    
+                <table id="sales" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                  class="row-border hover display stripe" style="width:100%;">
+                  <thead>
+                    <tr>
+                      <th style="text-align: center; padding: 10px 13px;">Sr No.</th>
+                      <th style="text-align: center; padding: 10px 13px;">Date</th>
+                      <th style="text-align: center; padding: 10px 13px;">Consumer</th>
+                      <th style="text-align: center; padding: 10px 13px;">Products</th>
+                      <th style="text-align: center; padding: 10px 13px;">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let s of sales; let i = index">
+                      <td style="text-align: center;">{{ i + 1 }}</td>
+                      <td style="text-align: center;">{{ s.date | date:shortDate }}</td>
+                      <td style="text-align: center;">{{ s.consumer }}</td>
+                      <td style="text-align: center;">
+                        <ul style="list-style-type:none;">
+                          <li *ngFor="let item of s.items;">{{ item.productName }}</li>
+                        </ul>
+                      </td>
+                      <td style="text-align: center;">
+                        <button type="button" class="btn bg-navy btn-xs" (click)="view(s)"
+                          style="margin-right: 5px; margin-bottom: 5px;"><i class="fa fa-eye"></i></button>
+                          <!-- <button type="button" class="btn bg-navy btn-xs productUpdate" attr.data-identifier="{{p._id}}" data-toggle="modal" data-target="#addProductModal"
+                          style="margin-right: 5px;"><i class="fa fa-edit"></i></button> -->
+                        <button type="button" class="btn btn-danger btn-xs" (click)="deleteSale(s)"
+                        style="margin-right: 5px; margin-top: 5px;"><i
+                            class="fa fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Modal -->
+<div class="modal fade" [style.display] = " showModal ? 'block' : 'none'" 
+[ngClass]="{ 'in':showModal }" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="section-title modal-title">View Sale</h3>
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+      </div>
+      <div class="modal-body" *ngIf="viewSale!=null">
+        <div class="row">
+          <div class="col-md-12">
+            <table style="width: 100%;">
+              <tr>
+                <td style="text-align: center;">
+                  <label>Consumer :</label>
+                </td>
+                <td>
+                  <label style="font-weight: 500;">
+                    {{viewSale.consumer}}
+                  </label>
+                </td>
+                <td style="text-align: center;">
+                  <label>Date :</label>
+                </td>
+                <td>
+                  <label style="font-weight: 500;">
+                   {{viewSale.date | date:shortDate}}
+                  </label>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <br>
+        <br>
+       <div class="row">
+        <div class="col-md-12">
+          <table style="width: 100%;" >
+            <thead>
+              <tr>
+                <th style="text-align: center; padding: 5px;">Sr No.</th>
+                <th style="text-align: center; padding: 5px;">Product Name</th>
+                <th style="text-align: center; padding: 5px;">Quantity</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of viewSale.items; let j = index;">
+                <td style="text-align: center; padding: 5px; width: 20%;">
+                  {{ j + 1 }}
+                  <!-- <input formControlName="productId" type="hidden"> -->
+                </td>
+                <td style="text-align: center; padding: 5px; width: 20%;">
+                  {{ item.productName }}
+                </td>
+                <td style="text-align: center; padding: 5px; width: 20%;">
+                  {{ item.quantity }}
+                 
+                </td>
+              </tr>
+            </tbody>
+         </table>
+        </div>
+       </div>        
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn bg-gold" (click)="closeModal()">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
